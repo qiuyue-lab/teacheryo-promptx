@@ -9,8 +9,8 @@ RUN apt-get update && apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# 克隆PromptX仓库
-RUN git clone https://github.com/deepractice/promptx.git . && \
+# 克隆PromptX仓库（注意大小写）
+RUN git clone https://github.com/Deepractice/PromptX.git . && \
     npm install && \
     npm run build
 
