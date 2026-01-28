@@ -21,6 +21,10 @@ RUN mkdir -p /data
 # 暴露MCP端口
 EXPOSE 5203
 
+# 设置工作目录到MCP服务器包
+WORKDIR /app/packages/mcp-server
+
 # 启动PromptX MCP服务器
 ENV PORT=5203
-CMD ["pnpm", "start:server", "--host", "0.0.0.0", "--port", "5203"]
+ENV HOST=0.0.0.0
+CMD ["node", "dist/index.js"]
