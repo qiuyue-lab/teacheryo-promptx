@@ -14,11 +14,11 @@ RUN git clone https://github.com/deepractice/promptx.git . && \
     npm install && \
     npm run build
 
+# 创建数据目录
+RUN mkdir -p /data
+
 # 暴露MCP端口
 EXPOSE 5203
-
-# 数据目录
-VOLUME /data
 
 # 启动PromptX服务器
 ENV PORT=5203
