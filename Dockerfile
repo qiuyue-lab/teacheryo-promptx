@@ -25,5 +25,9 @@ ENV PROMPTX_DATA_DIR=/data
 # 工作目录切换到mcp-server
 WORKDIR /app/packages/mcp-server
 
-# 硬编码8080端口，避免Railway构建时验证PORT变量
-CMD ["node", "dist/mcp-server.js", "--transport", "http", "--port", "8080", "--host", "0.0.0.0", "--cors", "--debug"]
+# 复制启动脚本
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+# 使用启动脚本，它会在运行时读取Railway设置的PORT
+CMD ["/start.sh"]
