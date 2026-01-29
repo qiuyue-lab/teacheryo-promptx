@@ -25,11 +25,5 @@ ENV PROMPTX_DATA_DIR=/data
 # 工作目录切换到mcp-server
 WORKDIR /app/packages/mcp-server
 
-# 创建启动脚本（不在这里引用PORT，让它在运行时读取）
-RUN printf '#!/bin/sh\n\
-echo "Starting MCP Server..."\n\
-echo "PORT from env: $PORT"\n\
-exec node dist/mcp-server.js --transport http --port "$PORT" --host 0.0.0.0 --cors --debug\n\
-' > /start.sh && chmod +x /start.sh
-
-CMD ["/start.sh"]
+# 直接使用JSON数组形式的CMD，让shell在运行时处理
+CMD ["sh", "-c", "node dist/mcp-server.js --transport http --port ${PORT} --host 0.0.0.0 --cors --debug"]
