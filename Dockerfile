@@ -25,6 +25,11 @@ ENV PROMPTX_DATA_DIR=/data
 # 工作目录切换到mcp-server
 WORKDIR /app/packages/mcp-server
 
-# Railway会设置PORT环境变量，我们使用它
-# 使用HTTP模式并启用CORS
-CMD node dist/mcp-server.js --transport http --port ${PORT:-5203} --host 0.0.0.0 --cors --debug
+# 创建启动脚本来正确处理PORT环境变量
+RUN echo '#!/bin/sh\n\
+PORT=${PORT:-8080}\n\
+echo "Starting MCP Server on port $PORT"\n\
+exec node dist/mcp-server.js --transport http --port "$PORT" --host 0.0.0.0 --cors --debug\n\
+' > /app/start.sh && chmod +x /app/start.sh
+
+CMD ["/app/start.sh"]
