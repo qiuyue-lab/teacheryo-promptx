@@ -18,16 +18,13 @@ RUN git clone https://github.com/Deepractice/PromptX.git . && \
 # 创建数据目录
 RUN mkdir -p /data
 
-# 暴露MCP端口
-EXPOSE 5203
-
-# 环境变量（Railway会覆盖PORT）
-ENV PORT=5203
-ENV HOST=0.0.0.0
+# 环境变量
 ENV NODE_ENV=production
+ENV PROMPTX_DATA_DIR=/data
 
 # 工作目录切换到mcp-server
 WORKDIR /app/packages/mcp-server
 
-# 启动命令：使用正确的入口文件
-CMD ["node", "dist/mcp-server.js", "--port", "$PORT", "--host", "0.0.0.0"]
+# Railway会设置PORT环境变量，我们使用它
+# 使用HTTP模式并启用CORS
+CMD node dist/mcp-server.js --transport http --port ${PORT:-5203} --host 0.0.0.0 --cors --debug
