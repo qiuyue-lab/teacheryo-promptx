@@ -25,11 +25,5 @@ ENV PROMPTX_DATA_DIR=/data
 # 工作目录切换到mcp-server
 WORKDIR /app/packages/mcp-server
 
-# 创建启动脚本来正确处理PORT环境变量
-RUN echo '#!/bin/sh\n\
-PORT=${PORT:-8080}\n\
-echo "Starting MCP Server on port $PORT"\n\
-exec node dist/mcp-server.js --transport http --port "$PORT" --host 0.0.0.0 --cors --debug\n\
-' > /app/start.sh && chmod +x /app/start.sh
-
-CMD ["/app/start.sh"]
+# 使用shell形式的CMD来正确处理环境变量
+CMD PORT=${PORT:-8080} && echo "Starting MCP Server on port $PORT" && node dist/mcp-server.js --transport http --port "$PORT" --host 0.0.0.0 --cors --debug
