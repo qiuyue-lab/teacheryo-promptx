@@ -25,5 +25,5 @@ ENV PROMPTX_DATA_DIR=/data
 # 工作目录切换到mcp-server
 WORKDIR /app/packages/mcp-server
 
-# 直接使用JSON数组形式的CMD，让shell在运行时处理
-CMD ["sh", "-c", "node dist/mcp-server.js --transport http --port ${PORT} --host 0.0.0.0 --cors --debug"]
+# 硬编码8080端口，避免Railway构建时验证PORT变量
+CMD ["node", "dist/mcp-server.js", "--transport", "http", "--port", "8080", "--host", "0.0.0.0", "--cors", "--debug"]
